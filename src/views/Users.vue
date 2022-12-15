@@ -27,14 +27,17 @@
           </tbody>
 
         </table>
-        <p>debug: sort: {{ currentSort }}, dir: {{ currentSortDir }} </p>
+        <p style="text-align: center;">
+          <span>debug: sort: {{ currentSort }}, dir: {{ currentSortDir }} </span>
+          <span>Page: {{page.current}}, Page length {{page.length}}</span>
+        </p>
       </div>
     </section>
     <section>
       <div class="container">
         <div class="button-list">
-          <button class="btn btnPrimary"> &#8610; </button>
-          <button class="btn btnPrimary"> &#8611; </button>
+          <button class="btn btnPrimary" @click="prevPage"> &#8610; </button>
+          <button class="btn btnPrimary" @click="nextPage"> &#8611; </button>
         </div>
       </div>
     </section>
@@ -48,7 +51,11 @@ export default {
     return {
       users: [],
       currentSort: 'name',
-      currentSortDir: 'asc'
+      currentSortDir: 'asc',
+      page: {
+        current: 1,
+        length: 3
+      }
     }
   },
   created() {
@@ -71,7 +78,12 @@ export default {
           return mod
         }
         return 0
-
+      }).filter((row, index) => {
+        let start = (this.page.current - 1) * this.page.length
+        let end = this.page.current * this.page.length
+        if (index >= start && index < end) {
+          return true
+        }
       })
     }
   },
@@ -81,6 +93,17 @@ export default {
         this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
       }
       this.currentSort = e
+    },
+    //Pagination
+    prevPage() {
+      if (this.page.current > 1) {
+        this.page.current -= 1
+      }
+    },
+    nextPage() {
+      if ((this.page.current * this.page.length) < this.users.length) {
+        this.page.current += 1
+      }
     }
   }
 }
@@ -91,6 +114,14 @@ img {
   height: auto;
   border-radius: 50%;
   margin-right: 16px;
+}
+.button-list {
+  width: 100%;
+  text-align: center;
+  .btn {
+    border-radius: 60px;
+    margin: 0 20px;
+  }
 }
 
 </style>
