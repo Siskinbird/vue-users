@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Shop from '@/views/Shop'
+import Users from '@/views/Users'
 import NotFound from '@/views/404'
 import Home from "@/views/Home";
 
@@ -18,9 +18,9 @@ const routes = [
     component: NotFound
   } ,
   {
-    path: '/shop',
-    name: 'shop',
-    component: Shop
+    path: '/users',
+    name: 'users',
+    component: Users
   }
 ]
 
